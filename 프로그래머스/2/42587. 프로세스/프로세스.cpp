@@ -1,40 +1,38 @@
 #include <string>
-#include <queue>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
-int solution(vector<int> priorities, int location) 
-{
+int solution(vector<int> priorities, int location) {
     int answer = 0;
-    queue<pair<int, int>> que;
-    priority_queue<int> pque;
-    
+    queue<pair<int, int>> qq;
+    priority_queue<int> ques;
     for(int i = 0 ; i < priorities.size(); i++)
     {
-        que.push(make_pair(i, priorities[i]));
-        pque.push(priorities[i]);
+        qq.push({priorities[i], i});
+        ques.push(priorities[i]);
     }
-
-    while(pque.size() > 0)
+    
+    while(!ques.empty())
     {
-        int idx = que.front().first;
-        int value = que.front().second;
-        que.pop();
+        pair<int, int> q = qq.front();
+        qq.pop();
+        int n = ques.top();
         
-        if(value == pque.top())
+        if(n == q.first)
         {
-            pque.pop();
             answer++;
-            if(idx == location)
+            if(q.second == location)
+            {
                 break;
+            }
+            ques.pop();
         }
         else
-            que.push(make_pair(idx,value));
-        
+            qq.push(q);
         
     }
-
     
     return answer;
 }
