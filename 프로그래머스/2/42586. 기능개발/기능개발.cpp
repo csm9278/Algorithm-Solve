@@ -1,36 +1,29 @@
 #include <string>
-#include <iostream>
 #include <vector>
-
+#include <iostream>
 using namespace std;
 
-vector<int> solution(vector<int> progresses, vector<int> speeds) 
-{
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
     vector<int> answer;
-    
-    int days = 0;
-    int count = 0;
-    while(progresses.size() > 0)
-    {   
-        for(int i = 0 ; i < progresses.size(); i++)
+    int day = 0;
+    int count = -1;
+
+    for(int i = 0; i < progresses.size(); i++)
+    {
+        if(progresses[i] + (speeds[i] * day) < 100)
         {
-            if(progresses[i] + (speeds[i] * days) >= 100)
+            progresses[i] += (speeds[i] * day);
+            while(progresses[i] < 100)
             {
-                count++;
+                progresses[i] += speeds[i];
+                day++;
             }
-            else
-                break;
+            answer.push_back(1);
+            count++;
         }
-        days++;
-        
-        if(count > 0)
-        {
-            answer.push_back(count);
-            progresses.erase(progresses.begin(), progresses.begin() + count);
-            speeds.erase(speeds.begin(), speeds.begin() + count);
-            count = 0;
-        }
+        else
+            answer[count]++;
     }
-    
+
     return answer;
 }
