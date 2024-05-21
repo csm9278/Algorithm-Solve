@@ -1,37 +1,32 @@
 #include <string>
-#include <iostream>
-#include <queue>
-#include <algorithm>
 #include <vector>
-
+#include <algorithm>
+#include <iostream>
 using namespace std;
 
-int solution(vector<int> people, int limit) 
-{
-    if(people.size() == 1)
-        return 1;
-
-    int answer = 0;
-    int idx = 0;
+int solution(vector<int> people, int limit) {
+    int answer = 1;
+    int boat = 0;
+    int max = 0;
     sort(people.begin(), people.end());
     
-    
-    while(people.size() > idx)
+    for(int i = 0; i < people.size(); i++)
     {
-        if(people[idx] + people[people.size() - 1] <= limit)
+        if(people[i] + boat <= limit && max < 2)
         {
-            answer++;
-            idx++;
-            people.pop_back();
+            boat += people[i];
+            max++;
         }
         else
         {
             answer++;
-            people.pop_back();
+            max = 0;
+            boat = 0;
+            boat += people[i];
+            max++;
         }
         
     }
-    
     
     return answer;
 }
